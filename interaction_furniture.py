@@ -18,7 +18,7 @@ class InteractiveFurniture(Furniture):
 
   @property
   def description(self):
-    return f' {self._description}, {self.currentCondition}'
+    return f'{self._description}, {self.currentCondition}'
 
   @description.setter
   def description(self, description):

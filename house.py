@@ -18,6 +18,9 @@ class House:
     self.description = description
     self.rooms = rooms
 
+  def __str__(self):
+    return self.getdescription()
+
   def getdescription(self):
     return self.tmpStr['description'].format(
       description=self.description,

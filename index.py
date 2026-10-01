@@ -2,6 +2,8 @@ from house import House
 from room import Room
 from furniture import Furniture
 from interaction_furniture import InteractiveFurniture
+from menu import Menu
+
 # 5. Möblera ett hus
 # Skapa minst 1 hus objekt
 # Skapa minst 3 rum objekt och tilldela dem till hus objekts variabel för sekvens av rum
@@ -101,4 +103,7 @@ house_2 = House(
 )
 
 # print(house_2.getdescription())
-print(house_1.roomsDescription)
+# print(house_1.roomsDescription)
+
+m = Menu([house_1, house_2])
+
