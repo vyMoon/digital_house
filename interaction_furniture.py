@@ -1,3 +1,4 @@
+from furniture import Furniture
 # 4. Skapa en klass för interaktiva möbler
 # Interaktiva Möbel objekten ska ha en variabel för namn
 # Interaktiva Möbel objekten ska ha en variabel för beskrivning
@@ -7,18 +8,21 @@
 # När man använder funktionen ska variabeln för beskrivning 
 # och variabeln för beskrivning av alternativt tillstånd växla
 
-class InteractiveFurniture:
+class InteractiveFurniture(Furniture):
   def __init__(self, name, description, conditions):
-    if len(conditions) < 2: raise ValueError('less than 2 conditions provided')
-
-    self.name = name
-    self._description = description
+    if len(conditions) < 2:
+      raise ValueError('less than 2 conditions provided')
+    super().__init__(name, description)
     self._conditions = conditions
     self.currentCondition = conditions[0]
 
   @property
   def description(self):
     return f' {self._description}, {self.currentCondition}'
+
+  @description.setter
+  def description(self, description):
+    self._description = description
   
   def getDescription(self):
     return f'{self.name}, {self.description}'
@@ -36,5 +40,5 @@ class InteractiveFurniture:
 # im = InteractiveFurniture('TV', 'flat', ['påslagen', 'visar en film'])
 # print(im.getDescription())
 # im.use()
-# im.use()
+# # im.use()
 # print(im.getDescription())

@@ -8,7 +8,7 @@ from room import Room
 
 class House:
   tmpStr = {
-    'description': 'Ett {description} hus på {street}, {adressNumber} med {rooms} rum. {roomsDescription}'
+    'description': 'Ett {description} hus på {street}, {adressNumber} med {rooms} rum.'
   }
   def __init__(self, street, adressNumber, description, rooms):
     if len(rooms) == 0: raise ValueError('Rooms array should no be empty')
@@ -24,7 +24,6 @@ class House:
       street=self.street,
       adressNumber=self.adressNumber,
       rooms=len(self.rooms),
-      roomsDescription=self.roomsDescription
     )
 
   @property
@@ -40,3 +39,4 @@ class House:
 # )
 
 # print(h.getdescription())
+# print(h.roomsDescription)
