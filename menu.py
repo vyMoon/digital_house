@@ -1,4 +1,6 @@
 from tools import requestNumberBetween
+import random
+
 # 6. Skapa en meny
 # I menyn ska användaren ha valet att kunna få veta beskrivningen på ett hus objekt och dess rum
 # I menyn ska användaren ha valet att kunna få veta beskrivningen på ett hus objekts rum objekt och dess möbler
@@ -11,17 +13,14 @@ class Menu:
     'itemStart': 1,
     'exit': 0,
     'goUp': -1,
+    'tornado': 5000
   }
 
   def __init__(self, houses):
     self.houses = houses
-    self.showHouses()
 
-  def printExitOption(self):
-    print(f'0 - Avsluta')
-  
-  def printGoUpOption(self):
-    print(f'-1 - Gå upp')
+  def start(self):
+    self.showHouses()
   
   def printItems(self, items):
     for i, item in enumerate(items, start=self.index['itemStart']):
@@ -35,25 +34,39 @@ class Menu:
       False
     )
 
-    if choice == 0:
+    if choice == self.index['exit']:
       return
+    if choice == self.index['tornado']:
+      self.tornado()
+      self.showHouses()
     else:
       return self.showHouse(
         self.houses[choice - 1]
       )
   
-  def printInfo(self, item, items, message, canGoUpp = True):
+  def printInfo(
+    self,
+    item,
+    items,
+    message,
+    canGoUp = True,
+    showTornado = True
+  ):
+    print('\n')
     if item:
       print(item)
     print(message)
     self.printItems(items)
-    self.printExitOption()
-    if canGoUpp:
-      self.printGoUpOption()
+    if showTornado:
+      print(f'{self.index['tornado']} - kör tornado')
+    print(f'{self.index['exit']} - Avsluta')
+    if canGoUp:
+      print(f'{self.index['goUp']} - Gå upp')
     
     return requestNumberBetween(
       len(items),
-      self.index['goUp'] if canGoUpp else self.index['exit']
+      self.index['goUp'] if canGoUp else self.index['exit'],
+      [self.index['tornado']] if showTornado else []
     )
   
   def showHouse(self, house):
@@ -63,10 +76,13 @@ class Menu:
       'Välj ett rum att utforska'
     )
 
-    if choice == 0:
+    if choice == self.index['exit']:
       return
-    if choice == -1:
+    elif choice == self.index['goUp']:
       return self.showHouses()
+    elif choice == self.index['tornado']:
+          self.tornado()
+          self.showHouse(house)
     else:
       return self.showRoom(
         house.rooms[choice - 1],
@@ -80,10 +96,13 @@ class Menu:
       'Välj ett möbelobjekt att utforska'
     )
 
-    if choice == 0:
+    if choice == self.index['exit']:
       return
-    if choice == -1:
+    elif choice == self.index['goUp']:
       return self.showHouse(house)
+    elif choice == self.index['tornado']:
+      self.tornado()
+      self.showRoom(room, house)
     else:
       return self.showFurniture(
         room.furniture[choice - 1],
@@ -96,12 +115,34 @@ class Menu:
       furniture,
       ['använda'],
       f'Vill du använda {furniture}',
+      True,
+      False
     )
 
-    if choice == 0:
+    if choice == self.index['exit']:
       return
-    elif choice == -1:
+    elif choice == self.index['goUp']:
       return self.showRoom(room, house)
     else:
       furniture.use()
       self.showFurniture(furniture, room, house)
+
+  def getRandomIndex(self, arr):
+    return random.randint(0, len(arr) - 1)
+  
+  def tornado(self):    
+    furniture = []
+    rooms = []
+
+    for house in self.houses:
+      rooms.extend(house.rooms)
+      for room in house.rooms:
+        furniture.extend(room.furniture)
+        room.removeFurniture()
+
+    while len(furniture):
+      rooms[
+        self.getRandomIndex(rooms)
+      ].addFurniture(
+        furniture.pop(self.getRandomIndex(furniture))
+      )

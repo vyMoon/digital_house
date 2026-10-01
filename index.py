@@ -106,4 +106,5 @@ house_2 = House(
 # print(house_1.roomsDescription)
 
 m = Menu([house_1, house_2])
+m.start()
 

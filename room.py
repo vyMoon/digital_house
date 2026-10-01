@@ -1,9 +1,10 @@
+from furniture import Furniture 
+
 # 2. Skapa en klass för rum
 # Rum objekten ska ha en variabel för namn
 # Rum objekten ska ha en variabel för beskrivning
 # Rum objekten ska ha en variabel för sekvens av möbler
 # Rum objekten ska ha en funktion som returnerar namn och beskrivning
-from furniture import Furniture 
 
 class Room:
   tmplStr = {
@@ -28,6 +29,12 @@ class Room:
       description=self.description ,
       furniture=self.stringifyFurniture()
     )
+
+  def removeFurniture(self):
+    self.furniture = []
+
+  def addFurniture(self, item):
+    self.furniture.append(item)
 
 
 # r = Room(

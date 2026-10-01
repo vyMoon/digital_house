@@ -1,10 +1,11 @@
+from room import Room
+
 # 1. Skapa en klass för hus
 # Hus klassen ska ha en variabel för väg adress
 # Hus objekten ska ha en variabel för adress nummer
 # Hus objekten ska ha en variabel för beskrivning
 # Hus objekten ska ha en variabel för sekvens av rum
 # Hus objekten ska ha en funktion som returnerar namn och beskrivning
-from room import Room
 
 class House:
   tmpStr = {

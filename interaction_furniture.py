@@ -1,4 +1,5 @@
 from furniture import Furniture
+
 # 4. Skapa en klass för interaktiva möbler
 # Interaktiva Möbel objekten ska ha en variabel för namn
 # Interaktiva Möbel objekten ska ha en variabel för beskrivning
