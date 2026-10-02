@@ -22,6 +22,12 @@ class House:
   def __str__(self):
     return self.getdescription()
 
+  def __len__(self):
+    return len(self.rooms)
+
+  def getCollection(self):
+    return self.rooms
+
   def getdescription(self):
     return self.tmpStr['description'].format(
       description=self.description,

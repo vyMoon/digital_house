@@ -5,13 +5,18 @@
 # Möbel objekten ska ha en funktion som "använder" möbel objektet
 
 class Furniture:
+  _actions = ['använda']
+
   def __init__(self, name, description,):
     self.name = name
     self.description = description
 
   def __str__(self):
     return f'{self.description} {self.name}'
-
+  
+  def getCollection(self):
+    return self._actions
+  
   def getDescription(self):
     return f'{self.description} {self.name}'
 

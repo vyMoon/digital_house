@@ -19,6 +19,15 @@ class Menu:
   def __init__(self, houses):
     self.houses = houses
 
+  def __str__(self):
+    return 'Välkommen in till vår fastighetsbyrå'
+
+  def __len__(self):
+    return len(self.houses)
+
+  def getCollection(self):
+    return self.houses
+
   def start(self):
     self.showHouses()
   
@@ -28,8 +37,7 @@ class Menu:
     
   def showHouses(self):
     choice = self.printInfo(
-      None,
-      self.houses,
+      self,
       'Välj ett hus att utforska',
       False
     )
@@ -43,20 +51,20 @@ class Menu:
       return self.showHouse(
         self.houses[choice - 1]
       )
-  
+
+  # prints available potions
+  # request users choice and return it 
   def printInfo(
     self,
     item,
-    items,
     message,
     canGoUp = True,
     showTornado = True
   ):
     print('\n')
-    if item:
-      print(item)
+    print(item)    
     print(message)
-    self.printItems(items)
+    self.printItems(item.getCollection())
     if showTornado:
       print(f'{self.index['tornado']} - kör tornado')
     print(f'{self.index['exit']} - Avsluta')
@@ -64,7 +72,7 @@ class Menu:
       print(f'{self.index['goUp']} - Gå upp')
     
     return requestNumberBetween(
-      len(items),
+      len(item.getCollection()),
       self.index['goUp'] if canGoUp else self.index['exit'],
       [self.index['tornado']] if showTornado else []
     )
@@ -72,7 +80,6 @@ class Menu:
   def showHouse(self, house):
     choice = self.printInfo(
       house,
-      house.rooms,
       'Välj ett rum att utforska'
     )
 
@@ -92,7 +99,6 @@ class Menu:
   def showRoom(self, room, house):
     choice = self.printInfo(
       room,
-      room.furniture,
       'Välj ett möbelobjekt att utforska'
     )
 
@@ -113,7 +119,6 @@ class Menu:
   def showFurniture(self, furniture, room, house):
     choice = self.printInfo(
       furniture,
-      ['använda'],
       f'Vill du använda {furniture}',
       True,
       False
@@ -130,19 +135,31 @@ class Menu:
   def getRandomIndex(self, arr):
     return random.randint(0, len(arr) - 1)
   
-  def tornado(self):    
+  def tornado(self):
+    # lists to store all the furniture items and room items  
     furniture = []
     rooms = []
-
+    # the code lower works because all the list is stored by references 
+    # lists all the houses
     for house in self.houses:
+      # adds all the rooms to the rooms list 
       rooms.extend(house.rooms)
+      # and lists all the rooms in the current house
       for room in house.rooms:
+        # adds the furniture to the furniture list
         furniture.extend(room.furniture)
+        # and make the list empty
         room.removeFurniture()
 
+    # here we have the all rooms in the all houses with no furniture
+    # while there is furniture in the furniture list
     while len(furniture):
+      # adds to random room
       rooms[
         self.getRandomIndex(rooms)
+      # random furniture item which is removed from the list
       ].addFurniture(
         furniture.pop(self.getRandomIndex(furniture))
       )
+
+    print('\nTornadon har k;rts. Kolla på möbelobjekt')

@@ -19,6 +19,12 @@ class Room:
   def __str__(self):
     return f'Ett {self.name} med {len(self.furniture)} med möbelobjekt'
 
+  def __len__(self):
+    return len(self.furniture)
+
+  def getCollection(self):
+      return self.furniture
+  
   def stringifyFurniture(self):
     furniture = [item.getDescription() for item in self.furniture]
     return ', '.join(furniture) if len(furniture) else 'inget'
