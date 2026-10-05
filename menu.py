@@ -36,7 +36,7 @@ class Menu:
       print(f'{i} - {item}')
     
   def showHouses(self):
-    choice = self.printInfo(
+    choice = self.proceed(
       self,
       'Välj ett hus att utforska',
       False
@@ -53,14 +53,7 @@ class Menu:
       )
 
   # prints available potions
-  # request users choice and return it 
-  def printInfo(
-    self,
-    item,
-    message,
-    canGoUp = True,
-    showTornado = True
-  ):
+  def printInfo(self, item, message, showTornado, showGoUp):
     print('\n')
     print(item)    
     print(message)
@@ -68,17 +61,27 @@ class Menu:
     if showTornado:
       print(f'{self.index['tornado']} - kör tornado')
     print(f'{self.index['exit']} - Avsluta')
-    if canGoUp:
+    if showGoUp:
       print(f'{self.index['goUp']} - Gå upp')
+
+  # request users choice and return it 
+  def proceed(
+    self,
+    item,
+    message,
+    canGoUp = True,
+    showTornado = True
+  ):
+    self.printInfo(item, message, showTornado, canGoUp)
     
     return requestNumberBetween(
-      len(item.getCollection()),
+      len(item),
       self.index['goUp'] if canGoUp else self.index['exit'],
       [self.index['tornado']] if showTornado else []
     )
   
   def showHouse(self, house):
-    choice = self.printInfo(
+    choice = self.proceed(
       house,
       'Välj ett rum att utforska'
     )
@@ -97,7 +100,7 @@ class Menu:
       )
 
   def showRoom(self, room, house):
-    choice = self.printInfo(
+    choice = self.proceed(
       room,
       'Välj ett möbelobjekt att utforska'
     )
@@ -117,7 +120,7 @@ class Menu:
       )
 
   def showFurniture(self, furniture, room, house):
-    choice = self.printInfo(
+    choice = self.proceed(
       furniture,
       f'Vill du använda {furniture}',
       True,
@@ -157,9 +160,9 @@ class Menu:
       # adds to random room
       rooms[
         self.getRandomIndex(rooms)
-      # random furniture item which is removed from the list
+      # a random furniture item which is removed from the list
       ].addFurniture(
         furniture.pop(self.getRandomIndex(furniture))
       )
 
-    print('\nTornadon har k;rts. Kolla på möbelobjekt')
+    print('\nTornadon har körts. Kolla på möbelobjekt')

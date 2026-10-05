@@ -13,6 +13,9 @@ class Furniture:
 
   def __str__(self):
     return f'{self.description} {self.name}'
+
+  def __len__(self):
+    return len(self._actions)
   
   def getCollection(self):
     return self._actions
